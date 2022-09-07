@@ -13,13 +13,14 @@ public class Sin {
 		double dResult = dAngle;
 		int nCount =0;
 		double dOldResult = 0.0;
-		
+		double delta;
 		do {
 			dOldResult = dResult;
 			nCount ++;
-			dResult += Math.pow(-1.0, nCount)*
+			delta = Math.pow(-1.0, nCount)*
 					Math.pow(dAngle,2*nCount+1)/
 					Exponent.dFact(2*nCount+1);
+			dResult += delta;
 					
 		}while(Math.abs(dResult-dOldResult)>dPrecision);
 		return dResult;
