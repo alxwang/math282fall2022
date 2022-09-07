@@ -1,15 +1,21 @@
+import java.math.BigDecimal;
 
 public class MySqrt {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(mySqrt(4.0,0.0001));
-		System.out.println(mySqrt(4.0,0.000000001));
-		System.out.println(mySqrt(3.0,0.0001));
-		System.out.println(mySqrt(2.0,0.0001));
-		System.out.println(mySqrt(49.0,0.0001));
+//		System.out.println(mySqrt(4.0,0.0001));
+		System.out.println(mySqrt(81.0,1E-10));
+//		System.out.println(mySqrt(3.0,0.0001));
+//		System.out.println(mySqrt(2.0,0.0001));
+//		System.out.println(mySqrt(49.0,0.0001));
 	}
 
+	public static BigDecimal bdSqrt(BigDecimal bdValue, BigDecimal bdPrecision)
+	{
+		
+	}
+	
 	public static double mySqrt(double dValue, double dPrecision)
 	{
 		double dResult = 0.0;
@@ -26,6 +32,7 @@ public class MySqrt {
 			boolean bKeepGoing = true;
 			while(bKeepGoing)
 			{
+				//System.out.printf("%f %f %f %f \n",dGuess,dLower,dUpper,dUpper-dLower);
 				dGuess = (dUpper+dLower)/2.0;
 				double dTest = dGuess * dGuess;
 				if(dTest==dValue)
