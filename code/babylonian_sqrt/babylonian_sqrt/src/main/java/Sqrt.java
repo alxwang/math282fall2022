@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Sqrt {
     public static  double sqrt(double x, double precision)
     {
@@ -16,7 +18,9 @@ public class Sqrt {
     }
 
     public static void main(String[] args) {
-        System.out.println(sqrt(2,1E-10));
+        Scanner input = new Scanner(System.in);
+        double dVal = input.nextDouble();
+        System.out.println(sqrt(dVal,1E-10));
 
     }
 }
