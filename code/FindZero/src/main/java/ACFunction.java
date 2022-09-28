@@ -1,14 +1,16 @@
 public abstract class ACFunction implements IFunction{
     public abstract double calculate(double x);
 
-    public double findZero(/*Function->this*/double xPos,double xNeg,
+    public double findZero(/*Function->this*/double xl,double xr,
                                              double precision)
     {
+
+
         double guess = 0.0;
         boolean keepGoing = true;
         while(keepGoing)
         {
-            guess = (xPos+xNeg)/2.0;
+            guess = (xl+xr)/2.0;
             double y = this.calculate(guess);
             if(y==0.0)
             {
@@ -16,12 +18,12 @@ public abstract class ACFunction implements IFunction{
             }
             else if(y>0.0)
             {
-                xPos=guess;
+                xl=guess;
             }
             else {
-                xNeg=guess;
+                xr=guess;
             }
-            if(Math.abs(xPos-xNeg)<=precision) keepGoing =false;
+            if(Math.abs(xr-xl)<=precision) keepGoing =false;
         }
         return guess;
     }
