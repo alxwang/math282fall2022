@@ -4,8 +4,6 @@ public abstract class ACFunction implements IFunction{
     public double findZero(/*Function->this*/double xl,double xr,
                                              double precision)
     {
-
-
         double guess = 0.0;
         boolean keepGoing = true;
         while(keepGoing)
