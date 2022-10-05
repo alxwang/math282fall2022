@@ -36,6 +36,49 @@ public abstract class ACFunction implements IFunction{
             System.out.println(x+"\t"+this.calculate(x));
     }
 
+
+    @Override
+    public double leftRectRuleEfficient(double x_left, double x_right,
+                               double precision, int max_loop)
+    {
+        //Complete the one rect
+        long nRects = 1;
+        double dTotdalWidth = x_right - x_left;
+        double dHeights = this.calculate(x_left);//y1
+        double dEstimate = dHeights * dTotdalWidth;//y1*w1
+
+        int nLoops = 0;
+        boolean bKeepGoing = true;
+        while(bKeepGoing)
+        {
+            nLoops++;
+            double dOldEstimate = dEstimate;
+            //Always double the nRects for each time
+            nRects *=2;
+            double dWidth = dTotdalWidth/nRects;
+            //We need to keep the result from last iteration
+            //dEstimate = 0;
+
+            for(long i=1;i<nRects;i+=2)
+                dHeights+=this.calculate(x_left+i*dWidth);
+
+            dEstimate=dHeights*dWidth;
+
+            double dError = Math.abs(dEstimate-dOldEstimate);
+            double dRelError = dError/dEstimate;
+            if(dRelError<=precision)
+                bKeepGoing = false;
+            else if (nLoops>=max_loop)
+            {
+                bKeepGoing=false;
+                System.out.println("Did not converge with loops"+nLoops);
+            }
+
+        }
+        return dEstimate;
+    }
+
+
     @Override
     public double leftRectRule(double x_left, double x_right,
                                double precision, int max_loop)
@@ -58,12 +101,13 @@ public abstract class ACFunction implements IFunction{
             dEstimate = 0;
             for(long i=0;i<nRects;i++)
             {
-                double dLeftofRect = x_left+i*dWidth;
-                double dHeightofRect = this.calculate(dLeftofRect);
-                double dAreaofRect = dWidth*dHeightofRect;
-                dEstimate+=dAreaofRect;
+//                double dLeftofRect = x_left+i*dWidth;
+//                double dHeightofRect = this.calculate(dLeftofRect);
+//                double dAreaofRect = dWidth*dHeightofRect;
+//                dEstimate+=dAreaofRect;
+                dEstimate+=this.calculate(x_left+i*dWidth);
             }
-
+            dEstimate*=dWidth;
             double dError = Math.abs(dEstimate-dOldEstimate);
             double dRelError = dError/dEstimate;
             if(dRelError<=precision)

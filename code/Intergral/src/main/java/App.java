@@ -6,5 +6,9 @@ public class App {
                 1E-6,20));
         System.out.println(func1.leftRectRule(0,    10.0,
                 1E-6,35));
+        System.out.println(func1.leftRectRuleEfficient(3.0,9.0,
+                1E-6,20));
+        System.out.println(func1.leftRectRuleEfficient(0,    10.0,
+                1E-6,35));
     }
 }
