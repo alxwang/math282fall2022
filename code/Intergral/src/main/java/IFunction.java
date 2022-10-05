@@ -7,4 +7,5 @@ public interface IFunction {
     public double leftRectRule(double x_left, double x_right,double precision, int max_loop);
     public double leftRectRuleEfficient(double x_left, double x_right,
                                        double precision, int max_loop);
+    public double TrapezoidRule(double x_left, double x_right,double precision, int max_loop);
 }
