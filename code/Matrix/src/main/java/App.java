@@ -8,6 +8,45 @@ public class App {
 
         TestCreateMatrix();
         TestAdd();
+
+        TestSubtract();
+        TestScalarMultiply();
+
+
+    }
+
+    public static void TestSubtract()
+    {
+        IMatrix m1 = new Matrix(dArray1);
+        IMatrix m2 = new Matrix(dArray2);
+        IMatrix m3 = new Matrix(dArray3);
+
+        System.out.println("\n\nTesting matrix subtraction");
+        IMatrix mSum = m2.Subtract(m3);
+        System.out.println(mSum);
+
+        try
+        {
+            mSum = m1.Subtract(m2);
+            System.out.println(mSum);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Couldn't subtract\n" + e);
+        }
+    }
+
+    public static void TestScalarMultiply()
+    {
+        IMatrix m1 = new Matrix(dArray1);
+        IMatrix m2 = new Matrix(dArray2);
+
+        System.out.println("\n\nTesting scalar multiplication");
+        IMatrix mResult = m2.ScalarMultiply(10.0);
+        System.out.println(mResult);
+
+        mResult = m1.ScalarMultiply(0.5);
+        System.out.println(mResult);
     }
 
     public static void TestCreateMatrix()

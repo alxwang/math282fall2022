@@ -79,7 +79,7 @@ public abstract class AMatrix implements IMatrix {
 
     @Override
     public IMatrix Subtract(IMatrix mRight) throws IllegalArgumentException {
-        return null;
+        return this.Add(mRight.ScalarMultiply(-1));
     }
 
     @Override
@@ -89,6 +89,18 @@ public abstract class AMatrix implements IMatrix {
 
     @Override
     public IMatrix ScalarMultiply(double dScalar) {
-        return null;
+        AMatrix mLeftOp = this;
+        AMatrix mRs = null;
+        mRs = createMatrix(mLeftOp.nRows, mLeftOp.nCols);
+        //Because Matrix 1 based
+        //So we follow the same rule here
+        for(int r = 1;r<mLeftOp.nRows;r++)
+        {
+            for(int c=1;c<mLeftOp.nCols;c++)
+            {
+                mRs.setElement(r,c,mLeftOp.getElement(r,c)*dScalar);
+            }
+        }
+        return mRs;
     }
 }
