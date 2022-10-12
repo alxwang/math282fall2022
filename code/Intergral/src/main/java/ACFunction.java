@@ -42,7 +42,7 @@ public abstract class ACFunction implements IFunction{
     {
 
     }
-    
+
     @Override
     public double leftRectRuleEfficient(double x_left, double x_right,
                                double precision, int max_loop)
