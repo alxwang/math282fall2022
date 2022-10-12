@@ -12,7 +12,7 @@ public class App {
         TestSubtract();
         TestScalarMultiply();
 
-
+        TestMatrixMultiply();
     }
 
     public static void TestSubtract()
@@ -36,6 +36,29 @@ public class App {
         }
     }
 
+    public static void TestMatrixMultiply()
+    {
+        IMatrix m1 = new Matrix(dArray1);
+        IMatrix m2 = new Matrix(dArray2);
+        IMatrix m3 = new Matrix(dArray3);
+
+        System.out.println("\n\nTesting matrix multiplication");
+        IMatrix mProduct = m2.Multiply(m3);
+        System.out.println(mProduct);
+
+        mProduct = m2.Multiply(m1);
+        System.out.println(mProduct);
+
+        try
+        {
+            mProduct = m1.Multiply(m2);
+            System.out.println(mProduct);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Coudn't multiply\n" + e);
+        }
+    }
     public static void TestScalarMultiply()
     {
         IMatrix m1 = new Matrix(dArray1);

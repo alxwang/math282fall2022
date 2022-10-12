@@ -84,7 +84,29 @@ public abstract class AMatrix implements IMatrix {
 
     @Override
     public IMatrix Multiply(IMatrix mRight) throws IllegalArgumentException {
-        return null;
+        AMatrix mLeftOp = this;
+        AMatrix mRightOp = (AMatrix) mRight;
+        AMatrix mRs = null;
+        if(mLeftOp.getCols()!=mRightOp.getRows())
+        {
+            throw new IllegalArgumentException("Matrices must share oen dimension to ben multipy.");
+        }
+        mRs = createMatrix(mLeftOp.nRows, mRightOp.nCols);
+        double dSum;
+        for(int r=1;r<=mLeftOp.getRows();r++)
+        {
+            for(int c=1;c<=mRightOp.getCols();c++)
+            {
+                dSum = 0d;
+                for(int v=1;v<=mLeftOp.getRows();v++)
+                {
+                    dSum+=mLeftOp.getElement(r,v)*mRightOp.getElement(v,c);
+                }
+                mRs.setElement(r,c,dSum);
+            }
+        }
+
+        return mRs;
     }
 
     @Override
