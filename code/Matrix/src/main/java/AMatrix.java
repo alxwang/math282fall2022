@@ -125,4 +125,81 @@ public abstract class AMatrix implements IMatrix {
         }
         return mRs;
     }
+
+    @Override
+    public IMatrix Translate(double dX, double dY) {
+        AMatrix mLeftOp = this;
+        AMatrix mRs = null;
+//        mRs = createMatrix(mLeftOp.nRows, mLeftOp.nCols);
+//        for(int i=1;i<=mLeftOp.nRows;i++)
+//        {
+//            double x = mLeftOp.getElement(i,1);
+//            double y = mLeftOp.getElement(i,2);
+//            x += dX;
+//            y += dY;
+//            mRs.setElement(i,2,y);
+//            mRs.setElement(i,1,x);
+//        }
+        //1. Create Matrix T
+        AMatrix T = createMatrix(3,3);
+        for(int r=1;r<4;r++)
+            for(int c=1;c<4;c++)
+                if(r==c) T.setElement(r,c,1);
+                else T.setElement(r,c,0);
+        T.setElement(3,1,dX);
+        T.setElement(3,2,dY);
+        //2. Make the mLeftOP homogeneous
+        AMatrix H = createMatrix(3,3);
+        for(int r=1;r<4;r++)
+            for(int c=1;c<4;c++)
+                if(c<3) H.setElement(r,c,mLeftOp.getElement(r,c));
+                else H.setElement(r,c,1);
+
+        //3. Dot
+        mRs = (AMatrix) H.Multiply(T);
+        return mRs;
+    }
+
+    @Override
+    public IMatrix Scaling(double dX, double dY) {
+        AMatrix mLeftOp = this;
+        AMatrix mRs = null;
+        mRs = createMatrix(mLeftOp.nRows, mLeftOp.nCols);
+        for(int i=1;i<=mLeftOp.nRows;i++)
+        {
+            double x = mLeftOp.getElement(i,1);
+            double y = mLeftOp.getElement(i,2);
+            x *= dX;
+            y *= dY;
+            mRs.setElement(i,2,y);
+            mRs.setElement(i,1,x);
+        }
+        return mRs;
+    }
+
+    @Override
+    public IMatrix Rotate(double radians) {
+        AMatrix mLeftOp = this;
+        AMatrix mRs = null;
+        mRs = createMatrix(mLeftOp.nRows, mLeftOp.nCols);
+        for(int i=1;i<=mLeftOp.nRows;i++)
+        {
+            double x = mLeftOp.getElement(i,1);
+            double y = mLeftOp.getElement(i,2);
+            x = x*Math.cos(radians)+y*Math.sin(radians);
+            y = -x*Math.sin(radians)+y*Math.cos(radians);
+            mRs.setElement(i,2,y);
+            mRs.setElement(i,1,x);
+        }
+        return mRs;
+    }
+
+    @Override
+    public IMatrix Rotate(double radians, double dOx, double dOy) {
+        AMatrix mLeftOp = this;
+        AMatrix mRs = null;
+        mRs = createMatrix(mLeftOp.nRows, mLeftOp.nCols);
+
+        return mRs;
+    }
 }
