@@ -4,15 +4,60 @@ public class App {
     public static double[][] dArray3 = { { -2.0, 2.0 }, { 7.0, 8.0 } };
 
     public static void main(String[] args) {
-        System.out.println("Hello World");
+//        System.out.println("Hello World");
+//
+//        TestCreateMatrix();
+//        TestAdd();
+//
+//        TestSubtract();
+//        TestScalarMultiply();
+//
+//        TestMatrixMultiply();
+        testLeastSquares();
+    }
 
-        TestCreateMatrix();
-        TestAdd();
+    private static void testLeastSquares()
+    {
+        double dPoints[][] = { { -1.0, 4.0 },
+                {  0.0, 2.0 },
+                {  1.0, 1.0 },
+                {  2.0, 2.0 },
+                {  3.0, 4.0 } };
+        double dPoints2[][] = { { 0.0, 1.0 },
+                { 1.0, 1.0 },
+                { 2.0, 2.0 },
+                { 3.0, 4.0 },
+                { 4.0, 5.0 },
+                { 5.0, 6.0 } };
 
-        TestSubtract();
-        TestScalarMultiply();
+        System.out.println("\n\nTesting least-squares coefficient calculations");
+        IMatrix mPoints = new Matrix(dPoints);
+        System.out.println(mPoints.leastSquares(2));
 
-        TestMatrixMultiply();
+        mPoints = new Matrix(dPoints2);
+        System.out.println(mPoints.leastSquares(1));
+
+        // the least-squares calculations in the try/catch blocks should fail
+        // just testing that we must start with a matrix of points
+        try
+        {
+            mPoints = new Matrix(dArray1);
+            System.out.println(mPoints.leastSquares(1));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Couldn't calculate coefficients\n" + e);
+        }
+        // just testing that we must have enough points to do the calculations
+        try
+        {
+            mPoints = new Matrix(dArray2);
+            System.out.println(mPoints.leastSquares(2));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Couldn't calculate coefficients\n" + e);
+        }
     }
 
     public static void TestSubtract()

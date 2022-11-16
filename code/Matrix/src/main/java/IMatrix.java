@@ -8,4 +8,7 @@ public interface IMatrix {
     IMatrix Translate(double dX, double dY);
     IMatrix Rotate(double radians);
     IMatrix Rotate(double radians, double dOx, double dOy);
+
+    IMatrix leastSquares(int m);
+    IMatrix gaussJordanElimination();
 }

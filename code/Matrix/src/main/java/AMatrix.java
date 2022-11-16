@@ -202,4 +202,103 @@ public abstract class AMatrix implements IMatrix {
 
         return mRs;
     }
+
+
+    @Override
+    public IMatrix leastSquares(int m) throws IllegalArgumentException {
+        //Confirm matrix has 2 cols
+        if(this.nCols!=2) {
+            throw new IllegalArgumentException("Invoking matrix must be a matrix of data point(col =2)");
+        }
+        if(this.nRows<m+1) {
+            throw new IllegalArgumentException(String.format("Invoking matrix must be a matrix with at least %d data points",m+1));
+        }
+        if(m<0) {
+            throw new IllegalArgumentException(String.format("m must great than -1"));
+        }
+
+        int nXSums = 2*m+1;
+        int nYSums = m+1;
+        double[] xSums = new double[nXSums];
+        for(int i=0;i<nXSums;i++) { //i is the power
+            for(int k=1;k<=this.nRows;k++) {//k is the sample index
+                xSums[i]+=Math.pow(this.getElement(k,1),i);
+            }
+        }
+
+        double[]ySums = new double[nYSums];
+        for(int i=0;i<nYSums;i++) {
+            for(int k=1;k<=this.nRows;k++) {
+                ySums[i]+=Math.pow(this.getElement(k,1),i)*this.getElement(k,2);
+            }
+        }
+
+        //Generate matrix for G-J-E
+        AMatrix mRs = createMatrix(m+1,m+2);
+        for(int r=1;r<=mRs.nRows;r++) {
+            for(int c=1;c<=mRs.nCols;c++) {
+                if(c==mRs.nCols)
+                    mRs.setElement(r,c,ySums[r-1]);
+                else
+                    mRs.setElement(r,c,xSums[r+c-2]);
+            }
+        }
+
+        return mRs.gaussJordanElimination();
+
+    }
+    @Override
+    public IMatrix gaussJordanElimination() throws  IllegalArgumentException{
+        AMatrix mRs = this.copyMatrix();
+        if(this.nRows!=this.nCols-1) {
+            throw new IllegalArgumentException("Must be an augmented matrix");
+        }
+        for(int i=1;i<=mRs.nRows;i++){
+            mRs.systemSolvable(i);
+            double dPivot = mRs.getElement(i,i);
+            //Make the element at pivot is 1
+            for(int j=1;j<=mRs.nCols;j++)
+                mRs.setElement(i,j,mRs.getElement(i,j)/dPivot);
+            //Make the rest in the same cols to 0
+            for(int k=1;k<=mRs.nRows;k++){
+                if(k!=i){
+                    double dFactor = -1.0*mRs.getElement(k,i);//Col i is the current pivot col
+                    for(int j=i;j<=mRs.nCols;j++){//Only look forward
+                        double dValue = mRs.getElement(k,j)+mRs.getElement(i,j)*dFactor;
+                        mRs.setElement(k,j,dValue);
+                    }
+
+                }
+            }
+        }
+        return mRs;
+    }
+
+    private void systemSolvable(int nRow) throws  ArithmeticException{
+        double dPivot = this.getElement(nRow,nRow);
+        int nNextRow = nRow+1;
+        while(dPivot==0.0 && nNextRow<=this.nRows)
+        {
+            dPivot=this.getElement(nNextRow,nRow);
+            if(dPivot!=0.0)
+            {
+                //Swap
+                double dTemp = 0;
+                for(int j=1;j<=this.nCols;j++){
+                    dTemp=this.getElement(nRow,j);
+                    this.setElement(nRow,j,this.getElement(nNextRow,j));
+                    this.setElement(nNextRow,j,dTemp);
+
+                }
+            }
+            else {
+                nNextRow++;
+            }
+        }
+        if(dPivot==0.0)
+        {
+            throw new ArithmeticException("Not solvable");
+        }
+    }
 }
+
