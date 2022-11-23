@@ -93,12 +93,12 @@ public abstract class AMatrix implements IMatrix {
         }
         mRs = createMatrix(mLeftOp.nRows, mRightOp.nCols);
         double dSum;
-        for(int r=1;r<=mLeftOp.getRows();r++)
+        for(int r=1;r<=mRs.getRows();r++)
         {
-            for(int c=1;c<=mRightOp.getCols();c++)
+            for(int c=1;c<=mRs.getCols();c++)
             {
                 dSum = 0d;
-                for(int v=1;v<=mLeftOp.getRows();v++)
+                for(int v=1;v<=mLeftOp.getCols();v++)
                 {
                     dSum+=mLeftOp.getElement(r,v)*mRightOp.getElement(v,c);
                 }
